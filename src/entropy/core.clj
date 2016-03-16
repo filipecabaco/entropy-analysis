@@ -29,7 +29,7 @@
   (if (extention-filter file)
     (let [f file
           content (slurp f)
-          all-words (str/split content #"\s")
+          all-words  (doall (re-seq #"\w*" content))
           filtered (filter length-limit all-words)]
       {:file f :result (map entropy filtered)})))
 
