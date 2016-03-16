@@ -1,6 +1,6 @@
 # Basic Entropy Analyser
 
-A really ugly, poorly written and not optimized word entropy analyzer.
+A really ugly, poorly written, poorly tested and not optimized word entropy analyzer.
 
 Using Shannon Entropy ( https://en.wiktionary.org/wiki/Shannon_entropy ) we calculate the entropy of words of length superior to 5 charaters (might add argument to control this in the future) in a given folder.
 
