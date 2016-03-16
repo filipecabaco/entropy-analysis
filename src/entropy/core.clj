@@ -5,8 +5,6 @@
 
 (def arguments (atom {}))
 
-;Shannon Entropy - https://en.wiktionary.org/wiki/Shannon_entropy
-;https://rosettacode.org/wiki/Entropy#Clojure
 (defn entropy [s]
   {:word s :entropy (let [len (count s), log-2 (Math/log 2)]
      (->> (frequencies s)
@@ -38,7 +36,6 @@
 (defn isDirectory? [file] (.isDirectory file))
 
 (defn files
-  "Get all files"
   ([]
    (map files (.listFiles (io/file "."))))
   ([f]
