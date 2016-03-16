@@ -9,4 +9,4 @@ In theory, this can be used to find secrets in code.
 The entropy code calculation provided by https://rosettacode.org/wiki/Entropy#Clojure  
 
 ## Usage
-	```$sh entropy.sh <<entropy level>> <<extensions to analyse>>```
+	$sh entropy.sh <<entropy level>> <<extensions to analyse>>
