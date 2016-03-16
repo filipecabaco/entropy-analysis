@@ -1,36 +1,12 @@
-# entropy
+# Basic Entropy Analyser
 
-FIXME: description
+A really ugly, poorly written and not optimized word entropy analyzer.
 
-## Installation
+Using Shannon Entropy ( https://en.wiktionary.org/wiki/Shannon_entropy ) we calculate the entropy of words of length superior to 5 charaters (might add argument to control this in the future) in a given folder.
 
-Download from http://example.com/FIXME.
+In theory, this can be used to find secrets in code.
+
+The entropy code calculation provided by https://rosettacode.org/wiki/Entropy#Clojure  
 
 ## Usage
-
-FIXME: explanation
-
-    $ java -jar entropy-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+	```$sh entropy.sh <<entropy level>> <<extensions to analyse>>```
