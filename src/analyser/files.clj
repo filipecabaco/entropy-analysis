@@ -40,11 +40,13 @@
      (let [f file] (map process-files (.listFiles f) )) 
      (let [f file] (process-file f (:exts @arguments))))))
 
-(defn extract
+(defn- extract
+  "Retrieves word from result map"
   ([{r :result} ] 
    (map (fn [{w :word}] w) r)))
 
-(defn inverse-term 
+(defn- inverse-term 
+  "Calculates the inverse term frequency by extracting the values from the entropy calculations"
   [results]
   (def total (count results)) ; get total files
   (doall (->> (map extract results)
