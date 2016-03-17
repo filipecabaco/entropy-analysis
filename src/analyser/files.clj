@@ -1,6 +1,7 @@
 (ns analyser.files
   (:require [clojure.java.io :as io]
-            [analyser.entropy :as entropy]))
+            [analyser.entropy :as entropy]
+            [analyser.inverse-term-frequency :as term-freq]))
 (def arguments (atom {}))
 (defn- entropy 
   "Get entropy values"
@@ -39,8 +40,24 @@
      (let [f file] (map process-files (.listFiles f) )) 
      (let [f file] (process-file f (:exts @arguments))))))
 
+(defn extract
+  ([{r :result} ] 
+   (map (fn [{w :word}] w) r)))
+
+(defn inverse-term 
+  [results]
+  (def total (count results)) ; get total files
+  (doall (->> (map extract results)
+              (flatten)
+              (frequencies)
+              (term-freq/calculate total))))
+
 (defn process
   "Initiates analysis of files"
   [exts]
   (swap! arguments assoc :exts exts)
-  (flatten (map process-files (.listFiles (io/file ".")))))
+  (def entropy-result (->> (map process-files (.listFiles (io/file ".")))
+        (flatten)
+        (remove nil?)))
+  (inverse-term entropy-result))
+
