@@ -1,8 +1,10 @@
 (ns analyser.files
   (:require [clojure.java.io :as io]
+            [clojure.set :as set]
             [analyser.entropy :as entropy]
             [analyser.inverse-term-frequency :as term-freq]))
 (def arguments (atom {}))
+
 (defn- entropy 
   "Get entropy values"
   [w]
@@ -42,24 +44,36 @@
 
 (defn- extract
   "Retrieves word from result map"
-  ([{r :result} ] 
+  ([{r :result}] 
    (map (fn [{w :word}] w) r)))
 
 (defn- inverse-term 
   "Calculates the inverse term frequency by extracting the values from the entropy calculations"
   [results]
   (def total (count results)) ; get total files
-  (doall (->> (map extract results)
-              (flatten)
-              (frequencies)
-              (term-freq/calculate total))))
+  (->> (map extract results)
+       (flatten)
+       (frequencies)
+       (term-freq/calculate total)
+       (into {})))
+
+(defn- combine
+  "Combines analysis made by mulytiplying inverse with entropy"
+  [inverse entropy]
+  (map (fn [{f :file r :result}] 
+         {:file f
+          :result (distinct (map (fn [{w :word e :entropy}] 
+                          {:word w
+                           :score (* (get inverse w) e)}) r))}) entropy))
 
 (defn process
   "Initiates analysis of files"
   [exts]
   (swap! arguments assoc :exts exts)
   (def entropy-result (->> (map process-files (.listFiles (io/file ".")))
-        (flatten)
-        (remove nil?)))
-  (inverse-term entropy-result))
+                           (flatten)
+                           (remove nil?)))
+  (def inverse-term-result (inverse-term entropy-result))
+  (combine inverse-term-result entropy-result))
 
+  ;pokiasdlkjiuqweivxzncxbashgdwqipeuouuNBANMBSAUDYOAALSALSHJASJ2928W1098lkjn

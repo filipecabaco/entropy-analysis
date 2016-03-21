@@ -5,7 +5,7 @@
   "Calculate the words term frequency-inverse document frequency value"
   [total values]
   (map (fn [[w c]] 
-         {:word w 
-          :freq (-> (+ 1 c) 
-              (/ total)
-              (Math/log))}) values))
+         {w (-> (+ 1 c) 
+                (/ total)
+                (Math/log)
+                (Math/abs))}) values))
