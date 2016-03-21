@@ -28,11 +28,14 @@
 
 (defn -main
   [& args]
-  (println (str "Scanning for high entropy keywords."))
-  (println (str "Checking entropy * inverse frequency of words on files with the following extension:" (drop 1 args)))
-  (println (str "Score level: " (first args)))
-  (swap! arguments assoc :score (first args))
+  (def score (first args))
   (def extensions (drop 1 args))
   (def scores (files/process extensions))
+  (swap! arguments assoc :score score)
+ 
+  (println (str "Scanning for high entropy keywords."))
+  (println (str "Checking entropy * inverse frequency of words on files with the following extension:" extensions))
+  (println (str "Score level: " score))
+ 
   (def sorted-candidates (map candidates scores))
   (doall (map print-candidates sorted-candidates)))
