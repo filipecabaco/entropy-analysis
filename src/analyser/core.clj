@@ -2,7 +2,6 @@
   (:gen-class)
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
-            [analyser.entropy :as entropy]
             [analyser.files :as files]))
 
 (def arguments (atom {}))
