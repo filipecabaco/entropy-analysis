@@ -8,12 +8,12 @@
 (def arguments (atom {}))
 
 (defn candidate-filters
-  [{e :entropy}]
-  (> e (read-string (:entropy @arguments))))
+  [{s :score}]
+  (> s (read-string (:score @arguments))))
 
 (defn candidates
   [{f :file r :result}]
-  {:file f :candidates (sort-by :entropy (filter candidate-filters r))})
+  {:file f :candidates (sort-by :score (filter candidate-filters r))})
 
 (defn print-candidate
   [c]
@@ -28,11 +28,12 @@
 
 (defn -main
   [& args]
-  (println (str "Scanning for high entropy keywords."))
-  (println (str "Checking entropy on files with the following extension:" (drop 1 args)))
-  (println (str "Entropy level: " (first args)))
-  (swap! arguments assoc :entropy (first args))
+  (swap! arguments assoc :score (first args))
   (def extensions (drop 1 args))
-  (def entropies (files/process extensions))
-  (def sorted-candidates (map candidates entropies))
+  (def scores (files/process extensions))
+  (def sorted-candidates (map candidates scores))
+  
+  (println (str "Scanning secrets for extentions: " (pr-str extensions)))
+  (println (str "Score level: " (first args)))
+  
   (doall (map print-candidates sorted-candidates)))
